@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option csharp_namespace = "DatabaseService";
+
+package dt;
+
+message DataTransferRecord {
+  int32 id = 1;
+  int32 bytes = 2;
+  int32 packets = 3;
+  int32 timestamp = 4;
+}
+
+message Reply {
+  string message = 1;
+}
+
+message Timestamp {
+  int32 timestamp = 1;
+}
+
+message Value {
+  float value = 1;
+}
+
+message DataTransferRecordId {
+  int32 id = 1;
+}
+
+service DataTransfer {
+  rpc Create(DataTransferRecord) returns (Reply) {}
+  rpc Read(DataTransferRecordId) returns (DataTransferRecord) {}
+  rpc Update(DataTransferRecord) returns (Reply) {}
+  rpc Delete(DataTransferRecordId) returns (Reply) {}
+  rpc Min(Timestamp) returns (Value) {}
+  rpc Max(Timestamp) returns (Value) {}
+  rpc Avg(Timestamp) returns (Value) {}
+  rpc Sum(Timestamp) returns (Value) {}
+}

@@ -1,0 +1,6 @@
+﻿services:
+  databaseservice:
+    image: databaseservice
+    build:
+      context: .
+      dockerfile: Dockerfile
