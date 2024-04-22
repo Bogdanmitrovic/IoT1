@@ -4,3 +4,32 @@
     build:
       context: .
       dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - net1
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - net1
+
+  flaskapp:
+    image: flaskapp
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5005:5005"
+    networks:
+      - net1
+networks:
+  net1:
+    name: net1
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+        - gateway: 172.18.0.1
+    external: true

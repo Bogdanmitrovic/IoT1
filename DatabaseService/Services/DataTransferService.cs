@@ -52,8 +52,16 @@ public class DataTransferService(IMongoCollection<DataTransferRecord> dataTransf
 
     public override Task<Value> Sum(Timestamp request, ServerCallContext context)
     {
-        var sum = dataTransferRecords.Find(r => r.Timestamp > request.Timestamp_).ToList()
-            .Sum(record => record.Bytes);
+        int sum;
+        try
+        {
+            sum = dataTransferRecords.Find(r => r.Timestamp > request.Timestamp_).ToList()
+                .Sum(record => record.Bytes);
+        }
+        catch (OverflowException)
+        {
+            sum = int.MaxValue;
+        }
         return Task.FromResult(new Value { Value_ = sum });
     }
 }
